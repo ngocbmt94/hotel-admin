@@ -1,6 +1,7 @@
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
-import ButtonIcon from "./ButtonIcon";
+import { createPortal } from "react-dom";
+import { children, cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -26,7 +27,7 @@ const Overlay = styled.div`
   transition: all 0.5s;
 `;
 
-const Button = styled.button`
+const ButtonClose = styled.button`
   background: none;
   border: none;
   border-radius: 100%;
@@ -44,24 +45,75 @@ const Button = styled.button`
   & svg {
     width: 2.2rem;
     height: 2.2rem;
-    /* Sometimes we need both */
     /* fill: var(--color-grey-500);
     stroke: var(--color-grey-500); */
     color: var(--color-brand-700);
   }
 `;
 
-function Modal({ children, onClose }) {
-  return (
+// 1. create modal context
+const ModalContext = createContext();
+
+// 2. Create Modal Provider
+function Modal({ children }) {
+  const [curNameOfModal, setCurNameOfModal] = useState("");
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  return <ModalContext.Provider value={{ curNameOfModal, setCurNameOfModal, modalRef, buttonRef }}>{children}</ModalContext.Provider>;
+}
+
+function ButtonOpenModal({ children, openWithName }) {
+  const { setCurNameOfModal, buttonRef } = useContext(ModalContext);
+
+  return cloneElement(children, { onClick: () => setCurNameOfModal(openWithName), ref: buttonRef });
+}
+
+function ContentModal({ children, contentName }) {
+  const { curNameOfModal, setCurNameOfModal, modalRef, buttonRef } = useContext(ModalContext);
+
+  // useEffect(() => {
+  //   function handleClick(e) {
+  //     if (!modalRef.current.contains(e.target) && e.target !== buttonRef.current) setCurNameOfModal("");
+  //   }
+  //   document.addEventListener("click", handleClick);
+
+  //   return () => document.removeEventListener("click", handleClick);
+  // }, [modalRef, buttonRef, setCurNameOfModal]);
+
+  if (contentName !== curNameOfModal) return null;
+
+  return createPortal(
     <Overlay>
-      <StyledModal>
-        <Button onClick={onClose}>
+      <StyledModal ref={modalRef}>
+        <ButtonClose onClick={() => setCurNameOfModal("")}>
           <HiXMark />
-        </Button>
-        {children}
+        </ButtonClose>
+
+        {cloneElement(children, { onCloseModal: () => setCurNameOfModal("") })}
       </StyledModal>
-    </Overlay>
+    </Overlay>,
+    document.body
   );
 }
+
+// 4.
+Modal.ContentModal = ContentModal;
+Modal.ButtonOpenModal = ButtonOpenModal;
+
+// function Modal({ children, onClose }) {
+//   //createPortal: place Modal outside parent element but still keep original position in React component tree
+//   return createPortal(
+//     <Overlay>
+//       <StyledModal>
+//         <Button onClick={onClose}>
+//           <HiXMark />
+//         </Button>
+//         {children}
+//       </StyledModal>
+//     </Overlay>,
+//     document.body
+//   );
+// }
 
 export default Modal;
