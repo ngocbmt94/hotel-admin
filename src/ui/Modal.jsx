@@ -72,14 +72,14 @@ function ButtonOpenModal({ children, openWithName }) {
 function ContentModal({ children, contentName }) {
   const { curNameOfModal, setCurNameOfModal, modalRef, buttonRef } = useContext(ModalContext);
 
-  // useEffect(() => {
-  //   function handleClick(e) {
-  //     if (!modalRef.current.contains(e.target) && e.target !== buttonRef.current) setCurNameOfModal("");
-  //   }
-  //   document.addEventListener("click", handleClick);
+  useEffect(() => {
+    function handleClick(e) {
+      if (!modalRef.current.contains(e.target) && e.target !== buttonRef.current) setCurNameOfModal("");
+    }
+    document.addEventListener("click", handleClick);
 
-  //   return () => document.removeEventListener("click", handleClick);
-  // }, [modalRef, buttonRef, setCurNameOfModal]);
+    return () => document.removeEventListener("click", handleClick);
+  }, [modalRef, buttonRef, setCurNameOfModal]);
 
   if (contentName !== curNameOfModal) return null;
 
