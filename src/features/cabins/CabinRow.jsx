@@ -1,12 +1,13 @@
 import { HiOutlineTrash, HiMiniPencilSquare, HiOutlineSquare2Stack } from "react-icons/hi2";
-import { useState } from "react";
 import styled from "styled-components";
 
 import { formatCurrency } from "../../utils/helpers.js";
 import ButtonIcon from "../../ui/ButtonIcon.jsx";
 import CreateCabinForm from "./CreateCabinForm.jsx";
+import ConfirmDelete from "../../ui/ConfirmDelete.jsx";
 import { useDeleteCabin } from "./useDeleteCabin.js";
 import { useCreateCabin } from "./useCreateCabin.js";
+import Modal from "../../ui/Modal.jsx";
 
 const TableRow = styled.div`
   display: grid;
@@ -54,7 +55,7 @@ const ButtonContainer = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const { id: cabinID, name, maxCapacity, regularPrice, discount, image, description } = cabin;
 
   const { isCreating, mutateCreateCabin } = useCreateCabin();
@@ -77,15 +78,39 @@ function CabinRow({ cabin }) {
           <ButtonIcon onClick={handleDuplicate} disabled={isCreating}>
             <HiOutlineSquare2Stack />
           </ButtonIcon>
-          <ButtonIcon onClick={() => setShow((s) => !s)}>
+
+          <Modal>
+            <Modal.ButtonOpenModal openWithName="edit-cabin">
+              <ButtonIcon disabled={isCreating}>
+                <HiMiniPencilSquare />
+              </ButtonIcon>
+            </Modal.ButtonOpenModal>
+            <Modal.ContentModal contentName="edit-cabin">
+              <CreateCabinForm />
+            </Modal.ContentModal>
+          </Modal>
+
+          <Modal>
+            <Modal.ButtonOpenModal openWithName="delete-cabin">
+              <ButtonIcon disabled={isDeleting}>
+                <HiOutlineTrash />
+              </ButtonIcon>
+            </Modal.ButtonOpenModal>
+            <Modal.ContentModal contentName="delete-cabin">
+              <ConfirmDelete resourceName={name} disabled={isDeleting} onConfirm={() => mutateDeleteCabin(cabinID)} />
+            </Modal.ContentModal>
+          </Modal>
+
+          {/* <ButtonIcon onClick={() => setShow((s) => !s)}>
             <HiMiniPencilSquare />
-          </ButtonIcon>
-          <ButtonIcon onClick={() => mutateDeleteCabin(cabinID)} disabled={isDeleting}>
+          </ButtonIcon> */}
+          {/* <ButtonIcon onClick={() => mutateDeleteCabin(cabinID)} disabled={isDeleting}>
             <HiOutlineTrash />
-          </ButtonIcon>
+          </ButtonIcon> */}
         </ButtonContainer>
       </TableRow>
-      {show && <CreateCabinForm cabinToEdit={cabin} onCloseModal={() => setShow((s) => !s)} />}
+
+      {/* {show && <CreateCabinForm cabinToEdit={cabin} onCloseModal={() => setShow((s) => !s)} />} */}
     </>
   );
 }

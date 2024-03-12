@@ -74,11 +74,18 @@ function ContentModal({ children, contentName }) {
 
   useEffect(() => {
     function handleClick(e) {
-      if (!modalRef.current.contains(e.target) && e.target !== buttonRef.current) setCurNameOfModal("");
+      if (modalRef.current && !modalRef.current.contains(e.target) && e.target.closest("button") !== buttonRef.current) {
+        // console.log(e.target.closest("button"), "btn", buttonRef.current);
+
+        setCurNameOfModal("");
+      }
     }
+
     document.addEventListener("click", handleClick);
 
-    return () => document.removeEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
   }, [modalRef, buttonRef, setCurNameOfModal]);
 
   if (contentName !== curNameOfModal) return null;

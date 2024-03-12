@@ -22,18 +22,16 @@ function AddCabin() {
 
   // covert to compound component
   return (
-    <>
-      <Modal>
-        <Modal.ButtonOpenModal openWithName="cabin-form">
-          <Button variation="primary" size="medium">
-            Add new cabin
-          </Button>
-        </Modal.ButtonOpenModal>
-        <Modal.ContentModal contentName="cabin-form">
-          <CreateCabinForm />
-        </Modal.ContentModal>
-      </Modal>
-    </>
+    <Modal>
+      <Modal.ButtonOpenModal openWithName="cabin-form">
+        <Button variation="primary" size="medium">
+          Add new cabin
+        </Button>
+      </Modal.ButtonOpenModal>
+      <Modal.ContentModal contentName="cabin-form">
+        <CreateCabinForm />
+      </Modal.ContentModal>
+    </Modal>
   );
 }
 
