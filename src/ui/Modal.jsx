@@ -1,7 +1,7 @@
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 import { createPortal } from "react-dom";
-import { children, cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
+import { cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -57,36 +57,33 @@ const ModalContext = createContext();
 // 2. Create Modal Provider
 function Modal({ children }) {
   const [curNameOfModal, setCurNameOfModal] = useState("");
-  const modalRef = useRef(null);
-  const buttonRef = useRef(null);
 
-  return <ModalContext.Provider value={{ curNameOfModal, setCurNameOfModal, modalRef, buttonRef }}>{children}</ModalContext.Provider>;
+  return <ModalContext.Provider value={{ curNameOfModal, setCurNameOfModal }}>{children}</ModalContext.Provider>;
 }
 
 function ButtonOpenModal({ children, openWithName }) {
-  const { setCurNameOfModal, buttonRef } = useContext(ModalContext);
+  const { setCurNameOfModal } = useContext(ModalContext);
 
-  return cloneElement(children, { onClick: () => setCurNameOfModal(openWithName), ref: buttonRef });
+  return cloneElement(children, { onClick: () => setCurNameOfModal(openWithName) });
 }
 
 function ContentModal({ children, contentName }) {
-  const { curNameOfModal, setCurNameOfModal, modalRef, buttonRef } = useContext(ModalContext);
+  const { curNameOfModal, setCurNameOfModal } = useContext(ModalContext);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     function handleClick(e) {
-      if (modalRef.current && !modalRef.current.contains(e.target) && e.target.closest("button") !== buttonRef.current) {
-        // console.log(e.target.closest("button"), "btn", buttonRef.current);
-
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
         setCurNameOfModal("");
       }
     }
 
-    document.addEventListener("click", handleClick);
+    document.addEventListener("click", handleClick, true);
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("click", handleClick, true);
     };
-  }, [modalRef, buttonRef, setCurNameOfModal]);
+  }, [modalRef, setCurNameOfModal]);
 
   if (contentName !== curNameOfModal) return null;
 

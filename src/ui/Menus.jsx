@@ -1,3 +1,6 @@
+import { Children, createContext, useContext, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
 import styled from "styled-components";
 
 const StyledMenu = styled.div`
@@ -27,6 +30,8 @@ const StyledToggle = styled.button`
 
 const StyledList = styled.ul`
   position: fixed;
+  border: 1px solid var(--color-grey-100);
+  z-index: 10;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -49,14 +54,91 @@ const StyledButton = styled.button`
   align-items: center;
   gap: 1.6rem;
 
-  &:hover {
-    background-color: var(--color-grey-50);
-  }
-
   & svg {
     width: 1.6rem;
     height: 1.6rem;
     color: var(--color-grey-400);
-    transition: all 0.3s;
+  }
+
+  &:hover {
+    background-color: var(--color-grey-100);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: white;
+    color: var(--color-brand-600);
+
+    svg {
+      color: var(--color-brand-600);
+    }
   }
 `;
+
+const MenusContext = createContext();
+function Menus({ children }) {
+  const [curOpenId, setCurOpenId] = useState(null);
+  const [position, setPosition] = useState(null);
+
+  return <MenusContext.Provider value={{ curOpenId, setCurOpenId, position, setPosition }}>{children}</MenusContext.Provider>;
+}
+
+function Toggle({ id }) {
+  const { curOpenId, setCurOpenId, setPosition } = useContext(MenusContext);
+
+  function handleToggle(e) {
+    const rectDOM = e.target.closest("button").getBoundingClientRect();
+
+    setPosition({ x: window.innerWidth - rectDOM.x, y: rectDOM.y - rectDOM.height + rectDOM.width });
+
+    setCurOpenId(curOpenId === id ? null : id);
+  }
+
+  return (
+    <StyledToggle onClick={handleToggle}>
+      <HiEllipsisHorizontal />
+    </StyledToggle>
+  );
+}
+
+function List({ id, children }) {
+  const { position, curOpenId, setCurOpenId } = useContext(MenusContext);
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (listRef.current && !listRef.current.contains(e.target)) {
+        setCurOpenId(null);
+      }
+    }
+
+    document.addEventListener("click", handleClick, true);
+
+    return () => {
+      document.removeEventListener("click", handleClick, true);
+    };
+  }, [listRef, setCurOpenId]);
+
+  if (curOpenId !== id) return null;
+  return createPortal(
+    <StyledList position={position} ref={listRef}>
+      {children}
+    </StyledList>,
+    document.body
+  );
+}
+
+function Button({ children, onClick }) {
+  return (
+    <li>
+      <StyledButton onClick={onClick}>{children}</StyledButton>
+    </li>
+  );
+}
+
+Menus.Menu = StyledMenu;
+Menus.Toggle = Toggle;
+Menus.List = List;
+Menus.Button = Button;
+
+export default Menus;
