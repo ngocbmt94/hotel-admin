@@ -105,19 +105,4 @@ function ContentModal({ children, contentName }) {
 Modal.ContentModal = ContentModal;
 Modal.ButtonOpenModal = ButtonOpenModal;
 
-// function Modal({ children, onClose }) {
-//   //createPortal: place Modal outside parent element but still keep original position in React component tree
-//   return createPortal(
-//     <Overlay>
-//       <StyledModal>
-//         <Button onClick={onClose}>
-//           <HiXMark />
-//         </Button>
-//         {children}
-//       </StyledModal>
-//     </Overlay>,
-//     document.body
-//   );
-// }
-
 export default Modal;
