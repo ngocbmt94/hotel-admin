@@ -1,3 +1,5 @@
+import { createContext, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
@@ -33,3 +35,36 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+const FilterContext = createContext();
+
+function Filter({ children, paramsFilter }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  return (
+    <FilterContext.Provider value={{ searchParams, setSearchParams, paramsFilter }}>
+      <StyledFilter>{children}</StyledFilter>
+    </FilterContext.Provider>
+  );
+}
+function Button({ children, valueFilter, defaultValue = false }) {
+  const { searchParams, setSearchParams, paramsFilter } = useContext(FilterContext);
+
+  function handleClickFilter(value) {
+    searchParams.set(paramsFilter, value);
+    setSearchParams(searchParams);
+  }
+
+  let currentParamURL = searchParams.get(paramsFilter);
+  if (!currentParamURL && defaultValue) currentParamURL = valueFilter;
+
+  return (
+    <FilterButton defaultValue={defaultValue} active={currentParamURL === valueFilter} disabled={currentParamURL === valueFilter} onClick={() => handleClickFilter(valueFilter)}>
+      {children}
+    </FilterButton>
+  );
+}
+
+Filter.Button = Button;
+
+export default Filter;
