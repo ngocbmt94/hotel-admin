@@ -1,9 +1,10 @@
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { useSearchParams } from "react-router-dom";
+import Pagination from "../../ui/Pagination";
 
-function BookingTable({ bookings }) {
+function BookingTable({ bookings, count }) {
+  console.log("count", count);
   // const [searchParams] = useSearchParams();
   // const status = searchParams.get("status") || "all";
 
@@ -32,6 +33,10 @@ function BookingTable({ bookings }) {
         </Table.Header>
 
         <Table.Body data={bookings} render={(booking) => <BookingRow key={booking.id} booking={booking} />} />
+
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

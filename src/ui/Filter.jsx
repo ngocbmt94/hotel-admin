@@ -52,6 +52,9 @@ function Button({ children, valueFilter, defaultValue = false }) {
 
   function handleClickFilter(value) {
     searchParams.set(paramsFilter, value);
+
+    if (searchParams.get("page")) searchParams.set("page", 1); // fresh page = 1 if has currentpage
+
     setSearchParams(searchParams);
   }
 

@@ -14,7 +14,10 @@ export function useFetchBookings() {
   const [value, direction] = sortByValue.split("-");
   const sortBy = { value, direction };
 
-  const { data: bookings, error, isLoading } = useQuery({ queryKey: ["bookings", filter, sortBy], queryFn: () => getAllBookings({ filter, sortBy }) });
+  // for pagination
+  const curPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
-  return { bookings, error, isLoading };
+  const { data: { data: bookings, count } = {}, error, isLoading } = useQuery({ queryKey: ["bookings", filter, sortBy, curPage], queryFn: () => getAllBookings({ filter, sortBy, curPage }) });
+
+  return { bookings, error, isLoading, count };
 }
