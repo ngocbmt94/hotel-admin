@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import PageNotFound from "./pages/PageNotFound";
 import Cabins from "./pages/Cabins";
 import Bookings from "./pages/Bookings";
+import BookingPageDetail from "./pages/BookingPageDetail";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Settings from "./pages/Settings";
@@ -39,6 +40,10 @@ function App() {
         {
           path: "bookings",
           element: <Bookings />,
+        },
+        {
+          path: "bookings/:bookingId",
+          element: <BookingPageDetail />,
         },
         {
           path: "account",

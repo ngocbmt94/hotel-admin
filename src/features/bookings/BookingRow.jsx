@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { format, isToday } from "date-fns";
-
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
-
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import Menus from "../../ui/Menus";
+import { useNavigate } from "react-router-dom";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -54,6 +55,8 @@ function BookingRow({ booking }) {
     "checked-out": "silver",
   };
 
+  const navigateFn = useNavigate();
+
   return (
     <Table.Row>
       <Cabin>{cabinName}</Cabin>
@@ -75,6 +78,16 @@ function BookingRow({ booking }) {
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+
+      <Menus.Menu>
+        <Menus.Toggle id={booking.id} />
+        <Menus.List id={booking.id}>
+          <Menus.Button onClick={() => navigateFn(`../bookings/${bookingId}`)}>
+            <HiArrowTopRightOnSquare />
+            Go to detail
+          </Menus.Button>
+        </Menus.List>
+      </Menus.Menu>
     </Table.Row>
   );
 }
