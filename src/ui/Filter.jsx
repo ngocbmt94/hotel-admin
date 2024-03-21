@@ -17,7 +17,7 @@ const FilterButton = styled.button`
   border: none;
 
   ${(props) =>
-    props.active &&
+    props.active === "true" &&
     css`
       background-color: var(--color-brand-600);
       color: var(--color-brand-50);
@@ -59,7 +59,7 @@ function Button({ children, valueFilter, defaultValue = false }) {
   if (!currentParamURL && defaultValue) currentParamURL = valueFilter;
 
   return (
-    <FilterButton defaultValue={defaultValue} active={currentParamURL === valueFilter} disabled={currentParamURL === valueFilter} onClick={() => handleClickFilter(valueFilter)}>
+    <FilterButton defaultValue={defaultValue} active={(currentParamURL === valueFilter).toString()} disabled={currentParamURL === valueFilter} onClick={() => handleClickFilter(valueFilter)}>
       {children}
     </FilterButton>
   );

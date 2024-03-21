@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 function CabinTable({ cabins }) {
   const [searchParams] = useSearchParams();
   const valueFiltered = searchParams.get("discount") || "all";
-  console.log(cabins);
 
   // implement filter
   let dataFilterTable;

@@ -1,12 +1,24 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
+import BookingTable from "../features/bookings/BookingTable";
+import { useFetchBookings } from "../features/bookings/useFetchBookings";
+import Spinner from "../ui/Spinner";
+import BookingTableOperations from "../features/bookings/BookingTableOperations";
 
 function Bookings() {
+  const { bookings, isLoading } = useFetchBookings();
+
+  if (isLoading) return <Spinner />;
   return (
-    <Row type="horizontal">
-      <Heading as="h1">All bookings</Heading>
-      <p>TEST</p>
-    </Row>
+    <>
+      <Row>
+        <Heading as="h1">All bookings</Heading>
+
+        <BookingTableOperations />
+      </Row>
+
+      <BookingTable bookings={bookings} />
+    </>
   );
 }
 

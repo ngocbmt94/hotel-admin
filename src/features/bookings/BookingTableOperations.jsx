@@ -5,15 +5,14 @@ import TableOperations from "../../ui/TableOperations";
 function BookingTableOperations() {
   return (
     <TableOperations>
-      <Filter
-        filterField="status"
-        options={[
-          { value: "all", label: "All" },
-          { value: "checked-out", label: "Checked out" },
-          { value: "checked-in", label: "Checked in" },
-          { value: "unconfirmed", label: "Unconfirmed" },
-        ]}
-      />
+      <Filter paramsFilter="status">
+        <Filter.Button valueFilter="all" defaultValue={true}>
+          All
+        </Filter.Button>
+        <Filter.Button valueFilter="checked-out">Checked out</Filter.Button>
+        <Filter.Button valueFilter="checked-in">Checked in</Filter.Button>
+        <Filter.Button valueFilter="unconfirmed">Unconfirmed</Filter.Button>
+      </Filter>
 
       <SortBy
         options={[

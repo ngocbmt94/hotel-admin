@@ -34,8 +34,8 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
-  booking: {
+function BookingRow({ booking }) {
+  const {
     id: bookingId,
     created_at,
     startDate,
@@ -46,8 +46,8 @@ function BookingRow({
     status,
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
-  },
-}) {
+  } = booking;
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -65,14 +65,10 @@ function BookingRow({
 
       <Stacked>
         <span>
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
+          {isToday(new Date(startDate)) ? "Today" : formatDistanceFromNow(startDate)} &rarr; {numNights} night stay
         </span>
         <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
+          {format(new Date(startDate), "MMM dd yyyy")} &mdash; {format(new Date(endDate), "MMM dd yyyy")}
         </span>
       </Stacked>
 
