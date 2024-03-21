@@ -58,18 +58,18 @@ function Pagination({ count }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pageCount = Math.ceil(count / PAGE_SIZE);
-  const currentPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+  let currentPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   function handlePrev() {
-    const prevPage = currentPage <= 1 ? currentPage : currentPage - 1;
+    currentPage = currentPage <= 1 ? currentPage : currentPage - 1;
 
-    searchParams.set("page", prevPage);
+    searchParams.set("page", currentPage);
     setSearchParams(searchParams);
   }
   function handleNext() {
-    const nextPage = currentPage >= pageCount ? currentPage : currentPage + 1;
+    currentPage = currentPage >= pageCount ? currentPage : currentPage + 1;
 
-    searchParams.set("page", nextPage);
+    searchParams.set("page",  currentPage);
     setSearchParams(searchParams);
   }
 

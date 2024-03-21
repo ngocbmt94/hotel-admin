@@ -4,7 +4,6 @@ import Menus from "../../ui/Menus";
 import Pagination from "../../ui/Pagination";
 
 function BookingTable({ bookings, count }) {
-  console.log("count", count);
   // const [searchParams] = useSearchParams();
   // const status = searchParams.get("status") || "all";
 

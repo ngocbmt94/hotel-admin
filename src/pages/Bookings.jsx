@@ -6,7 +6,7 @@ import Spinner from "../ui/Spinner";
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 
 function Bookings() {
-  const { bookings, isLoading } = useFetchBookings();
+  const { bookings, isLoading, count } = useFetchBookings();
 
   if (isLoading) return <Spinner />;
   return (
@@ -17,7 +17,7 @@ function Bookings() {
         <BookingTableOperations />
       </Row>
 
-      <BookingTable bookings={bookings} />
+      <BookingTable bookings={bookings} count={count} />
     </>
   );
 }

@@ -39,16 +39,15 @@ const FilterButton = styled.button`
 const FilterContext = createContext();
 
 function Filter({ children, paramsFilter }) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   return (
-    <FilterContext.Provider value={{ searchParams, setSearchParams, paramsFilter }}>
+    <FilterContext.Provider value={{ paramsFilter }}>
       <StyledFilter>{children}</StyledFilter>
     </FilterContext.Provider>
   );
 }
 function Button({ children, valueFilter, defaultValue = false }) {
-  const { searchParams, setSearchParams, paramsFilter } = useContext(FilterContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { paramsFilter } = useContext(FilterContext);
 
   function handleClickFilter(value) {
     searchParams.set(paramsFilter, value);
