@@ -1,13 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { updateBooking } from "../../services/apiBookings";
 import toast from "react-hot-toast";
 
-export function useUpdateCheckin() {
+export function useUpdateCheckOut() {
   const queryClient = useQueryClient();
-  const navigateFn = useNavigate();
-  const { mutate: mutateCheckin, isPending: isChecking } = useMutation({
-    mutationFn: ({ id, obj }) => updateBooking(id, obj), // / mutationFn only accept one argrument
+  const { mutate: mutateCheckOut, isPending: isCheckingOut } = useMutation({
+    mutationFn: (id) => updateBooking(id, { status: "checked-out" }),
     onError: (err) => {
       console.error(err);
       toast.error(err.message);
@@ -18,10 +16,8 @@ export function useUpdateCheckin() {
       queryClient.invalidateQueries({
         queryKey: ["booking-detail"],
       });
-
-      navigateFn("/");
     },
   });
 
-  return { mutateCheckin, isChecking };
+  return { mutateCheckOut, isCheckingOut };
 }

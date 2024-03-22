@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HiArrowTopRightOnSquare, HiOutlineCheckBadge } from "react-icons/hi2";
+import { HiEye, HiOutlineCheckBadge } from "react-icons/hi2";
 import { format, isToday } from "date-fns";
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
@@ -7,6 +7,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
 import { useNavigate } from "react-router-dom";
+import { useUpdateCheckOut } from "../check-in-out/useUpdateCheckOut";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -56,6 +57,7 @@ function BookingRow({ booking }) {
   };
 
   const navigateFn = useNavigate();
+  const { mutateCheckOut, isCheckingOut } = useUpdateCheckOut();
 
   return (
     <Table.Row>
@@ -83,7 +85,7 @@ function BookingRow({ booking }) {
         <Menus.Toggle id={booking.id} />
         <Menus.List id={booking.id}>
           <Menus.Button onClick={() => navigateFn(`../bookings/${bookingId}`)}>
-            <HiArrowTopRightOnSquare />
+            <HiEye />
             Go to detail
           </Menus.Button>
 
@@ -91,6 +93,13 @@ function BookingRow({ booking }) {
             <Menus.Button onClick={() => navigateFn(`../checkin/${bookingId}`)}>
               <HiOutlineCheckBadge />
               Go check in
+            </Menus.Button>
+          )}
+
+          {status === "checked-in" && (
+            <Menus.Button onClick={() => mutateCheckOut(bookingId)}>
+              <HiOutlineCheckBadge />
+              Go check out
             </Menus.Button>
           )}
         </Menus.List>
