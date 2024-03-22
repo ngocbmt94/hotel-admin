@@ -1,21 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-
 import Heading from "../ui/Heading";
 import UpdateSettingsForm from "../features/settings/UpdateSettingsForm";
 import Spinner from "../ui/Spinner";
-
-import { getSettings } from "../services/apiSettings";
+import { useSetting } from "../features/settings/useSetting";
 
 function Settings() {
-  const {
-    isLoading: isSettings,
-    data: settingsData,
-    error,
-  } = useQuery({
-    queryKey: ["settings"],
-    queryFn: getSettings,
-  });
-
+  const { settingsData, isSettings } = useSetting();
   if (isSettings) return <Spinner />;
   return (
     <>

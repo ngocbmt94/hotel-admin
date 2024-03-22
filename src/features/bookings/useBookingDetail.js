@@ -4,12 +4,13 @@ import { getBooking } from "../../services/apiBookings";
 
 export function useBookingDetail() {
   const { bookingId } = useParams();
+
   const {
     data: booking,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["booking-detail"],
+    queryKey: ["booking-detail", bookingId],
     queryFn: () => getBooking(bookingId),
   });
 

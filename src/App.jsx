@@ -14,6 +14,7 @@ import Account from "./pages/Account";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import AppLayOut from "./ui/AppLayOut";
+import CheckIn from "./pages/CheckIn";
 
 function App() {
   const queryClient = new QueryClient({
@@ -44,6 +45,10 @@ function App() {
         {
           path: "bookings/:bookingId",
           element: <BookingPageDetail />,
+        },
+        {
+          path: "checkin/:bookingId",
+          element: <CheckIn />,
         },
         {
           path: "account",

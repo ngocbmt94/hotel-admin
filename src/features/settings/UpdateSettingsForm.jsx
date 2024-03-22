@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateSetting } from "../../services/apiSettings";
-import toast from "react-hot-toast";
 
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Spinner from "../../ui/Spinner";
 import { useEffect } from "react";
+import { useUpdateSetting } from "./useUpdateSetting";
 
 function UpdateSettingsForm({ settingsData }) {
   const { register, handleSubmit, reset } = useForm({ defaultValues: settingsData });
@@ -16,20 +14,7 @@ function UpdateSettingsForm({ settingsData }) {
     reset(settingsData);
   }, [settingsData, reset]);
 
-  const queryClient = useQueryClient();
-
-  const { isLoading, mutate: mutateUpdateSetting } = useMutation({
-    mutationFn: updateSetting,
-    onSuccess: () => {
-      toast.success("Sucessfully updated");
-      queryClient.invalidateQueries({
-        queryKey: ["settings"],
-      });
-    },
-    onError: (err) => {
-      toast.error(err);
-    },
-  });
+  const { mutateUpdateSetting, isLoading } = useUpdateSetting();
 
   function handleField(e, field) {
     mutateUpdateSetting({ [field]: e.target.value });

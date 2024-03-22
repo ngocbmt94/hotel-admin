@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HiArrowTopRightOnSquare } from "react-icons/hi2";
+import { HiArrowTopRightOnSquare, HiOutlineCheckBadge } from "react-icons/hi2";
 import { format, isToday } from "date-fns";
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
@@ -86,6 +86,13 @@ function BookingRow({ booking }) {
             <HiArrowTopRightOnSquare />
             Go to detail
           </Menus.Button>
+
+          {status === "unconfirmed" && (
+            <Menus.Button onClick={() => navigateFn(`../checkin/${bookingId}`)}>
+              <HiOutlineCheckBadge />
+              Go check in
+            </Menus.Button>
+          )}
         </Menus.List>
       </Menus.Menu>
     </Table.Row>
