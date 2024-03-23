@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import Button from "../ui/Button";
-import { useMoveBack } from "../hooks/useMoveBack";
+import LoginForm from "../features/authentication/LoginForm";
+import Logo from "../ui/Logo";
+import Heading from "../ui/Heading";
+import Background from "../features/authentication/Background";
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -9,20 +11,23 @@ const LoginLayout = styled.main`
   align-content: center;
   justify-content: center;
   gap: 3.2rem;
-  background-color: var(--color-grey-50);
 `;
-
+const StyledLoginForm = styled.div`
+  z-index: 30;
+  color: white;
+`;
 function Login() {
-  const back = useMoveBack();
-  function handleClick() {
-    back();
-    console.log("back");
-  }
   return (
-    <LoginLayout>
-      Login
-      <Button onClick={handleClick}>back</Button>
-    </LoginLayout>
+    <>
+      <Background />
+      <LoginLayout>
+        <Logo />
+        <StyledLoginForm>
+          <Heading as="h3">Login Form</Heading>
+          <LoginForm />
+        </StyledLoginForm>
+      </LoginLayout>
+    </>
   );
 }
 

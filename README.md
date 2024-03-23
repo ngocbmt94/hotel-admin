@@ -10,3 +10,8 @@ Currently, two official plugins are available:
 # Superbase
 
 Database password: izvQllHfhwLDA8us
+
+# Login example:
+
+- email: ngoc123@example.com
+- pass: pass123
