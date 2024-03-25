@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
@@ -6,12 +6,21 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import SpinnerMini from "../../ui/SpinnerMini";
 import { useLogin } from "./useLogin";
 import Heading from "../../ui/Heading";
+import { useFetchCurrentUser } from "./useFetchCurrentUser";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const navigateFn = useNavigate();
   const [email, setEmail] = useState("ngoc123@example.com");
   const [password, setPassword] = useState("pass123");
   const inputRef = useRef(null);
   const { mutateLogin, isLoading } = useLogin();
+  const { isAuthenticated } = useFetchCurrentUser();
+
+  // if is Authenticated, need redirect to app layout
+  useEffect(() => {
+    if (isAuthenticated) navigateFn("/", { replace: true });
+  }, [isAuthenticated, navigateFn]);
 
   function handleSubmit(e) {
     e.preventDefault();
