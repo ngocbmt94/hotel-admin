@@ -52,6 +52,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     //console.error(error);
   }
 
+  console.log(errors);
+
   return (
     <>
       {isWorking && <Spinner />}

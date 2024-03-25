@@ -11,7 +11,14 @@ Currently, two official plugins are available:
 
 Database password: izvQllHfhwLDA8us
 
-# Login example:
+# Login example run on development:
+
+1. account 1:
+
+- email: pasiyag903@glaslack.com
+- pass: abctest123
+
+2. account 2:
 
 - email: ngoc123@example.com
 - pass: pass123

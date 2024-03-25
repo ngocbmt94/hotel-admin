@@ -16,6 +16,7 @@ export async function getCurrentUser() {
 
   if (!session.session) return null;
 
+  // Get the JSON object for the logged in user.
   const { data, error } = await supabase.auth.getUser();
 
   if (error) throw new Error(error.message);
@@ -27,4 +28,21 @@ export async function logOut() {
   const { error } = await supabase.auth.signOut();
 
   if (error) throw new Error(error.message);
+}
+
+export async function signUp(newUser) {
+  const { data, error } = await supabase.auth.signUp({
+    email: newUser.email,
+    password: newUser.password,
+    // add some optional data
+    options: {
+      data: {
+        fullName: newUser.fullName,
+        avatar: "",
+      },
+    },
+  });
+  console.log("api", data);
+  if (error) throw new Error("Could not created new user account");
+  return data;
 }
