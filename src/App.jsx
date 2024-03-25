@@ -15,18 +15,24 @@ import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import AppLayOut from "./ui/AppLayOut";
 import CheckIn from "./pages/CheckIn";
+import ProtectedRoute from "./ui/ProtectedRoute";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0, // the data in the cache will stay fresh after amount specifical time
+    },
+  },
+});
 
 function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 0, // the data in the cache will stay fresh after amount specifical time
-      },
-    },
-  });
   const router = createBrowserRouter([
     {
-      element: <AppLayOut />,
+      element: (
+        <ProtectedRoute>
+          <AppLayOut />
+        </ProtectedRoute>
+      ),
       errorElement: <PageNotFound />,
       children: [
         { path: "/", element: <Navigate replace to="dashboard" /> },

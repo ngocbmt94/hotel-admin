@@ -6,6 +6,10 @@ const ButtonIcon = styled.button`
   padding: 0;
   transition: all 0.2s;
 
+  &:focus {
+    outline: none;
+  }
+
   &:hover svg {
     color: var(--color-red-700);
   }

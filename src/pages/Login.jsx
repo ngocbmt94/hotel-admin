@@ -14,7 +14,6 @@ const LoginLayout = styled.main`
 `;
 const StyledLoginForm = styled.div`
   z-index: 30;
-  color: white;
 `;
 function Login() {
   return (
@@ -23,7 +22,6 @@ function Login() {
       <LoginLayout>
         <Logo />
         <StyledLoginForm>
-          <Heading as="h3">Login Form</Heading>
           <LoginForm />
         </StyledLoginForm>
       </LoginLayout>

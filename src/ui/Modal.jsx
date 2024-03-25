@@ -40,13 +40,14 @@ const ButtonClose = styled.button`
 
   &:hover {
     background-color: var(--color-grey-100);
+    svg {
+      color: var(--color-red-700);
+    }
   }
 
   & svg {
     width: 2.2rem;
     height: 2.2rem;
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
     color: var(--color-brand-700);
   }
 `;

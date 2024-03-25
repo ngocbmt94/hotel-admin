@@ -2,7 +2,6 @@ import { HiOutlineTrash, HiMiniPencilSquare, HiOutlineSquare2Stack } from "react
 import styled from "styled-components";
 
 import { formatCurrency } from "../../utils/helpers.js";
-import ButtonIcon from "../../ui/ButtonIcon.jsx";
 import CreateCabinForm from "./CreateCabinForm.jsx";
 import ConfirmDelete from "../../ui/ConfirmDelete.jsx";
 import { useDeleteCabin } from "./useDeleteCabin.js";
