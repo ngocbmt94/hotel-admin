@@ -7,7 +7,7 @@ function LogOut() {
 
   if (isLogouting) return <Spinner />;
   return (
-    <ButtonIcon variation="secondary" size="medium" onClick={() => mutateLogOut()}>
+    <ButtonIcon variation="danger" onClick={() => mutateLogOut()}>
       <IoMdLogOut />
     </ButtonIcon>
   );

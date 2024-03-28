@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useFetchCurrentUser } from "./useFetchCurrentUser";
 
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -19,3 +20,23 @@ const Avatar = styled.img`
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
 `;
+
+const FullName = styled.span`
+  text-transform: capitalize;
+  font-size: 1.6rem;
+  font-weight: 500;
+`;
+
+function UserAvatar() {
+  const { curUser } = useFetchCurrentUser();
+  const { fullName, avatar } = curUser.user_metadata;
+
+  return (
+    <StyledUserAvatar>
+      <Avatar src={avatar || "default-user.jpg"} alt={fullName} />
+      <FullName>{fullName}</FullName>
+    </StyledUserAvatar>
+  );
+}
+
+export default UserAvatar;

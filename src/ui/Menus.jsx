@@ -83,7 +83,7 @@ function Menus({ children }) {
   return <MenusContext.Provider value={{ curOpenId, setCurOpenId, position, setPosition }}>{children}</MenusContext.Provider>;
 }
 
-function Toggle({ id }) {
+function Toggle({ id, children }) {
   const { curOpenId, setCurOpenId, setPosition } = useContext(MenusContext);
 
   function handleToggle(e) {
@@ -94,11 +94,7 @@ function Toggle({ id }) {
     setCurOpenId(curOpenId === id ? null : id);
   }
 
-  return (
-    <StyledToggle onClick={handleToggle}>
-      <HiEllipsisHorizontal />
-    </StyledToggle>
-  );
+  return <StyledToggle onClick={handleToggle}>{children ? children : <HiEllipsisHorizontal />}</StyledToggle>;
 }
 
 function List({ id, children }) {

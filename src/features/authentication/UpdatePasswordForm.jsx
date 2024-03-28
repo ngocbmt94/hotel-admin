@@ -3,30 +3,27 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-
-import { useUpdateUser } from "./useUpdateUser";
+import { useUpdateUserData } from "./useUpdateUserData";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { updateUser, isUpdating } = useUpdateUser();
+  const { mutateUpdateAccountUser, isUpdateAccount } = useUpdateUserData();
 
   function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: reset });
+    console.log(password);
+    mutateUpdateAccountUser({ password }, { onSuccess: () => reset() });
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow
-        label="Password (min 8 characters)"
-        error={errors?.password?.message}
-      >
+    <Form type="small" onSubmit={handleSubmit(onSubmit)}>
+      <FormRow label="Password (min 8 characters)" errors={errors?.password?.message}>
         <Input
           type="password"
           id="password"
           autoComplete="current-password"
-          disabled={isUpdating}
+          disabled={isUpdateAccount}
           {...register("password", {
             required: "This field is required",
             minLength: {
@@ -37,27 +34,25 @@ function UpdatePasswordForm() {
         />
       </FormRow>
 
-      <FormRow
-        label="Confirm password"
-        error={errors?.passwordConfirm?.message}
-      >
+      <FormRow label="Confirm password" errors={errors?.passwordConfirm?.message}>
         <Input
           type="password"
           autoComplete="new-password"
           id="passwordConfirm"
-          disabled={isUpdating}
+          disabled={isUpdateAccount}
           {...register("passwordConfirm", {
             required: "This field is required",
-            validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+            validate: (value) => value === getValues("password") || "Password confirmed must be same with password",
           })}
         />
       </FormRow>
       <FormRow>
-        <Button onClick={reset} type="reset" variation="secondary">
+        <Button onClick={reset} type="reset" variation="secondary" size="medium">
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdateAccount} type="submit" variation="primary" size="medium">
+          Update password
+        </Button>
       </FormRow>
     </Form>
   );

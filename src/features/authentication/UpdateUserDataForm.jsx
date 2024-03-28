@@ -6,49 +6,56 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
-import { useUser } from "./useUser";
+import { useFetchCurrentUser } from "./useFetchCurrentUser";
+import { useUpdateUserData } from "./useUpdateUserData";
 
 function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
+  // don't need the loading state, and can immediately use the user data,  it has already been loaded at this point
   const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
+    curUser: { email, user_metadata },
+  } = useFetchCurrentUser();
+
+  const { fullName: currentFullName } = user_metadata;
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
+  const { mutateUpdateAccountUser, isUpdateAccount } = useUpdateUserData();
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!fullName) return;
+    const dataUpdated = {
+      fullName,
+      avatar,
+    };
+    mutateUpdateAccountUser(dataUpdated);
+  }
+
+  function handleCancel() {
+    setFullName(currentFullName);
+    setAvatar(null);
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form type="small" onSubmit={handleSubmit}>
       <FormRow label="Email address">
         <Input value={email} disabled />
       </FormRow>
       <FormRow label="Full name">
-        <Input
-          type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          id="fullName"
-        />
+        <Input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} id="fullName" />
       </FormRow>
       <FormRow label="Avatar image">
-        <FileInput
-          id="avatar"
-          accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
-        />
+        <FileInput type="file" id="avatar" accept="image/*" onChange={(e) => setAvatar(e.target.files[0])} />
       </FormRow>
       <FormRow>
-        <Button type="reset" variation="secondary">
+        <Button type="reset" variation="secondary" size="medium" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button>Update account</Button>
+        <Button variation="primary" size="medium" type="submit" disabled={isUpdateAccount}>
+          Update account
+        </Button>
       </FormRow>
     </Form>
   );
