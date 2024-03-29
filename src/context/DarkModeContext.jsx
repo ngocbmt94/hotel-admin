@@ -21,6 +21,5 @@ export default function DarkModeProvider({ children }) {
 export function useDarkMode() {
   const { isDarkMode, handleToggle } = useContext(DarkModeContext);
 
-  console.log(isDarkMode);
   return { isDarkMode, handleToggle };
 }
