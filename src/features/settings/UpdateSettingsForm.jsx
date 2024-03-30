@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useUpdateSetting } from "./useUpdateSetting";
 
 function UpdateSettingsForm({ settingsData }) {
-  const { register, handleSubmit, reset } = useForm({ defaultValues: settingsData });
+  const { register, reset } = useForm({ defaultValues: settingsData });
 
   useEffect(() => {
     reset(settingsData);

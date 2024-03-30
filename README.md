@@ -13,12 +13,36 @@ Database password: izvQllHfhwLDA8us
 
 # Login example run on development:
 
+```
 1. account 1:
 
 - email: pasiyag903@glaslack.com
 - pass: abctest123
+```
 
+```
 2. account 2:
 
 - email: ngoc123@example.com
 - pass: pass123
+```
+
+# How to do this repo?
+
+Download or clone this repo and run the following command in the terminal:
+
+```
+1. npm install or npm i
+2. npm run dev
+
+```
+
+### Tools:
+
+React.js, Redux-query, React-router-dom, react-icons, recharts, react-hot-toast, styled-component, tsparticles
+
+### View the app (Hosted on Netlify):
+
+https://bichngoc-hotel-admin.netlify.app/login
+
+### Thanks for visiting this repo, take care!
