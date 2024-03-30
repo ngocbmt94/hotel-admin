@@ -7,5 +7,7 @@ export function useFetchTodayActivity() {
     queryFn: getStaysTodayActivity,
   });
 
+  console.log(arrTodayActivity);
+
   return { arrTodayActivity, isLoadingTodayActivity };
 }

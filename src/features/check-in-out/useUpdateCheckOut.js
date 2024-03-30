@@ -12,7 +12,7 @@ export function useUpdateCheckOut() {
     },
     onSuccess: (data) => {
       // data come from return of mutation Fn
-      toast.success(`Successfully updated checked in #${data.id}`);
+      toast.success(`Successfully updated checked out #${data.id}`);
       queryClient.invalidateQueries({
         queryKey: ["booking-detail"],
       });

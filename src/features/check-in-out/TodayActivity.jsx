@@ -41,15 +41,21 @@ const NoActivity = styled.p`
 function TodayActivity() {
   const { arrTodayActivity, isLoadingTodayActivity } = useFetchTodayActivity();
 
-  if (isLoadingTodayActivity) return <Spinner />;
   return (
     <StyledToday>
       <Heading as="h2">Today activity</Heading>
-      <TodayList>
-        {arrTodayActivity.map((item) => (
-          <TodayItem key={item.id} item={item} />
-        ))}
-      </TodayList>
+
+      {/* need render spinner here, because may be not activity check in or check out on today */}
+      {!isLoadingTodayActivity && arrTodayActivity.length > 0 ? (
+        <TodayList>
+          {arrTodayActivity.map((item) => (
+            <TodayItem key={item.id} item={item} />
+          ))}
+        </TodayList>
+      ) : (
+        <NoActivity>No activity today</NoActivity>
+      )}
+      {isLoadingTodayActivity && <Spinner />}
     </StyledToday>
   );
 }
