@@ -15,6 +15,7 @@ export function useFetchRecentStay() {
   });
 
   const confirmedStayActual = recentStay?.filter((stay) => stay.status !== "unconfirmed");
+  console.log(confirmedStayActual);
 
   return { confirmedStayActual, isLoadingRecentStay };
 }

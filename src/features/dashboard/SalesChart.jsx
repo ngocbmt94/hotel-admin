@@ -7,6 +7,7 @@ import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
+  min-height: 400px;
 
   /* Hack to change grid line colors */
   & .recharts-cartesian-grid-horizontal line,
@@ -42,15 +43,17 @@ function SalesChart({ recentBookings, numDays }) {
 
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from {format(allDates[0], "MMM dd yyyy")} - {format(allDates.at(-1), "MMM dd yyyy")}
+      </Heading>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
           margin={{
             top: 10,
-            right: 30,
+            right: 0,
             left: 0,
-            bottom: 0,
+            bottom: 60,
           }}
         >
           <CartesianGrid strokeDasharray="4 4" />
