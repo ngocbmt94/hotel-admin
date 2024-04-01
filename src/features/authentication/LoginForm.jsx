@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const navigateFn = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("pasiyag903@glaslack.com");
+  const [password, setPassword] = useState("abctest123");
   const inputRef = useRef(null);
   const { mutateLogin, isLoading } = useLogin();
   const { isAuthenticated } = useFetchCurrentUser();

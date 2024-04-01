@@ -83,10 +83,11 @@ function Menus({ children }) {
   return <MenusContext.Provider value={{ curOpenId, setCurOpenId, position, setPosition }}>{children}</MenusContext.Provider>;
 }
 
-function Toggle({ id, children }) {
+function Toggle({ id }) {
   const { curOpenId, setCurOpenId, setPosition } = useContext(MenusContext);
 
   function handleToggle(e) {
+    e.stopPropagation();
     const rectDOM = e.target.closest("button").getBoundingClientRect();
 
     setPosition({ x: window.innerWidth - rectDOM.x, y: rectDOM.y - rectDOM.height + rectDOM.width });
@@ -94,7 +95,11 @@ function Toggle({ id, children }) {
     setCurOpenId(curOpenId === id ? null : id);
   }
 
-  return <StyledToggle onClick={handleToggle}>{children ? children : <HiEllipsisHorizontal />}</StyledToggle>;
+  return (
+    <StyledToggle onClick={handleToggle}>
+      <HiEllipsisHorizontal />
+    </StyledToggle>
+  );
 }
 
 function List({ id, children }) {
@@ -105,13 +110,14 @@ function List({ id, children }) {
     function handleClick(e) {
       if (listRef.current && !listRef.current.contains(e.target)) {
         setCurOpenId(null);
+        console.log("click out");
       }
     }
 
-    document.addEventListener("click", handleClick, true);
+    document.addEventListener("click", handleClick);
 
     return () => {
-      document.removeEventListener("click", handleClick, true);
+      document.removeEventListener("click", handleClick);
     };
   }, [listRef, setCurOpenId]);
 
